@@ -56,17 +56,10 @@ public class JdbcContactRepository implements AgendaRepository<Contact> {
 
   @Override
   public void delete(Contact entity) throws Exception {
-    List<Contact> contatos = new ArrayList<Contact>();
-    contatos = this.select();
-
-    Optional<Contact> original = contatos.stream().filter(contato -> contato.getNome().equals(entity.getNome())).findFirst();
-    
-    if(original.isPresent()){
-      try(Connection connection = JdbcConnectionFactory.getConnection()){
-        PreparedStatement preparedStatement = connection.prepareStatement("DELETE from contatos WHERE id = ?");
-        preparedStatement.setInt(1, original.get().getId());
-        preparedStatement.execute();
-      }
-    } else throw new Exception("Não encontrado");    
+  	try(Connection connection = JdbcConnectionFactory.getConnection()){
+      PreparedStatement preparedStatement = connection.prepareStatement("DELETE from contatos WHERE id = ?");
+      preparedStatement.setInt(1, entity.getId());
+      preparedStatement.execute();
+    } 
   }
 }

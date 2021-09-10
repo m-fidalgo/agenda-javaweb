@@ -30,9 +30,11 @@ public class ListContactsServlet extends HttpServlet {
 		
 		Object errorMsg = req.getSession().getAttribute("errorMsg");
 		
-		if(errorMsg != null)
+		if(errorMsg != null) {
 			req.setAttribute("errorMsg", errorMsg.toString());
-		
+			req.getSession().removeAttribute("errorMsg");
+		}
+			
 		RequestDispatcher dispatcher = req.getServletContext().getRequestDispatcher("/WEB-INF/pages/listaContatos.jsp");
 		dispatcher.forward(req, resp);
 	}
