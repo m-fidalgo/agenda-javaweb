@@ -27,7 +27,6 @@ public class JdbcContactRepository implements AgendaRepository<Contact> {
       while(rs.next()){
         contatos.add(new Contact(rs.getInt("id"), rs.getString("nome"), rs.getInt("idade"), rs.getString("tel")));
       }
-
     } 
 
     return contatos;
@@ -46,20 +45,13 @@ public class JdbcContactRepository implements AgendaRepository<Contact> {
 
   @Override
   public void update(Contact entity) throws Exception {
-    List<Contact> contatos = new ArrayList<Contact>();
-    contatos = this.select();
-
-    Optional<Contact> original = contatos.stream().filter(contato -> contato.getNome().equals(entity.getNome())).findFirst();
-    
-    if(original.isPresent()){
-      try(Connection connection = JdbcConnectionFactory.getConnection()){
-        PreparedStatement preparedStatement = connection.prepareStatement("UPDATE contatos SET idade = ?, tel = ? WHERE id = ?");
-        preparedStatement.setInt(1, entity.getIdade());
-        preparedStatement.setString(2, entity.getTel());
-        preparedStatement.setInt(3, original.get().getId());
-        preparedStatement.execute();
-      }
-    } else throw new Exception("Não encontrado");     
+  	try(Connection connection = JdbcConnectionFactory.getConnection()){
+      PreparedStatement preparedStatement = connection.prepareStatement("UPDATE contatos SET idade = ?, tel = ? WHERE id = ?");
+      preparedStatement.setInt(1, entity.getIdade());
+      preparedStatement.setString(2, entity.getTel());
+      preparedStatement.setInt(3, entity.getId());
+      preparedStatement.execute();
+    }   
   }
 
   @Override

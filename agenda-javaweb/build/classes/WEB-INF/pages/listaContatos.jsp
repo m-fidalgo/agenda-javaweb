@@ -33,5 +33,6 @@
 			</jstl:forEach>
 		</tbody>
 	</table>
+	<a href="${pageContext.request.contextPath}/agenda/inserir">Criar novo contato</a>
 </body>
 </html>

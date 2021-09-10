@@ -1,7 +1,6 @@
 package agenda.servlets;
 
 import java.io.IOException;
-import java.sql.SQLException;
 import java.util.List;
 
 import javax.servlet.RequestDispatcher;
@@ -28,6 +27,11 @@ public class ListContactsServlet extends HttpServlet {
 		}  catch (Exception e) {
 			req.setAttribute("errorMsg", e.getMessage());
 		}
+		
+		Object errorMsg = req.getSession().getAttribute("errorMsg");
+		
+		if(errorMsg != null)
+			req.setAttribute("errorMsg", errorMsg.toString());
 		
 		RequestDispatcher dispatcher = req.getServletContext().getRequestDispatcher("/WEB-INF/pages/listaContatos.jsp");
 		dispatcher.forward(req, resp);
