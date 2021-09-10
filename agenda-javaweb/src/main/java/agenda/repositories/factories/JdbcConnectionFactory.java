@@ -15,6 +15,7 @@ public class JdbcConnectionFactory {
 			throw new FileNotFoundException("Arquivo de configurações do BD não encontrado");
 		Properties props = new Properties();
 		props.load(is);
+		DriverManager.registerDriver(new com.mysql.jdbc.Driver());
     Connection connection = DriverManager.getConnection(props.getProperty("connectionString"),props.getProperty("user"),props.getProperty("password"));
     return connection;
   }
